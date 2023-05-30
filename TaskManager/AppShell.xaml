@@ -3,11 +3,16 @@
     x:Class="TaskManager.AppShell"
     xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:local="clr-namespace:TaskManager"
-    Shell.FlyoutBehavior="Disabled">
+    xmlns:local="clr-namespace:TaskManager.Views"
+    Shell.FlyoutBehavior="Flyout">
 
     <ShellContent
-        Title="Home"
+        Title="Overview"
+        ContentTemplate="{DataTemplate local:MainPage}"
+        Route="MainPage" />
+
+    <ShellContent
+        Title="About"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 
