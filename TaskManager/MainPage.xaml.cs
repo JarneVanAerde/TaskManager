@@ -1,4 +1,8 @@
-﻿namespace TaskManager;
+﻿using Microsoft.Maui.Accessibility;
+using Microsoft.Maui.Controls;
+using System;
+
+namespace TaskManager;
 
 public partial class MainPage : ContentPage
 {
