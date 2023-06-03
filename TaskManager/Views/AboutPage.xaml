@@ -5,18 +5,55 @@
              x:DataType="viewmodel:AboutPageViewModel"
              x:Class="TaskManager.Views.AboutPage"
              Title="About">
+    
     <!-- TODO: Bind title from the view model -->
+    <!-- TODO: font size verhuizen naar een static string -->
 
-    <Grid Padding="20"
-          ColumnDefinitions="Auto, Auto"
-          ColumnSpacing="10"
-          RowDefinitions="Auto, Auto">
+    <VerticalStackLayout Padding="20">
 
-        <Label FontSize="24"
+        <Grid ColumnDefinitions="100, auto"
+              RowDefinitions="50, 50, 50, 50">
+
+            <Label FontSize="18"
+               Grid.Row="0"
+               Grid.Column="0">Name:</Label>
+
+            <Label FontSize="18"
+               Grid.Row="0"
+               Grid.Column="1"
+               Text="{Binding Name}"/>
+
+            <Label FontSize="18"
                Grid.Row="1"
-               Grid.Column="1">Name</Label>
-        <Label FontSize="24"
-               Text="{Binding Name}" />
+               Grid.Column="0">Package:</Label>
 
-    </Grid>
+            <Label FontSize="18"
+               Grid.Row="1"
+               Grid.Column="1"
+               Text="{Binding Package}"/>
+
+            <Label FontSize="18"
+               Grid.Row="2"
+               Grid.Column="0">Version:</Label>
+
+            <Label FontSize="18"
+               Grid.Row="2"
+               Grid.Column="1"
+               Text="{Binding Version}"/>
+
+            <Label FontSize="18"
+               Grid.Row="3"
+               Grid.Column="0">Build:</Label>
+
+            <Label FontSize="18"
+               Grid.Row="3"
+               Grid.Column="1"
+               Text="{Binding Build}"/>
+        </Grid>
+
+        <Button Text="Show UI settings"
+                Command="{Binding ShowAppSettingsCommand}" />
+
+    </VerticalStackLayout>
+    
 </ContentPage>

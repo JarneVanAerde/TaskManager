@@ -1,8 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
+using TaskManager.ViewModels;
 using TaskManager.Views;
 
 namespace TaskManager;
@@ -34,6 +36,8 @@ public static class MauiProgram
             });
         }
 
+        RegisterDepedencies(builder);
+
 #if DEBUG
         builder.Logging.AddDebug();
 #endif
@@ -48,13 +52,20 @@ public static class MauiProgram
             Page page = appAction.Id switch
             {
                 APP_ACTION_ID_OVERVIEW => new MainPage(),
-                APP_ACTION_ID_ABOUT => new AboutPage(),
+                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel()),
                 _ => new MainPage()
             };
 
             await Application.Current.MainPage.Navigation.PopToRootAsync();
             await Application.Current.MainPage.Navigation.PushAsync(page);
         });
+    }
+
+    public static void RegisterDepedencies(MauiAppBuilder builder)
+    {
+        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<AboutPage>();
+        builder.Services.AddSingleton<AboutPageViewModel>();
     }
 }
 
