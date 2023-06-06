@@ -5,45 +5,44 @@
              x:DataType="viewmodel:AboutPageViewModel"
              x:Class="TaskManager.Views.AboutPage"
              Title="{Binding Title}">
-    <!-- TODO: font size verhuizen naar een static string -->
 
     <VerticalStackLayout Padding="20">
-
+        
         <Grid ColumnDefinitions="100, auto"
               RowDefinitions="50, 50, 50, 50">
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="0"
                Grid.Column="0">Name:</Label>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="0"
                Grid.Column="1"
                Text="{Binding Name}"/>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="1"
                Grid.Column="0">Package:</Label>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="1"
                Grid.Column="1"
                Text="{Binding Package}"/>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="2"
                Grid.Column="0">Version:</Label>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="2"
                Grid.Column="1"
                Text="{Binding Version}"/>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="3"
                Grid.Column="0">Build:</Label>
 
-            <Label FontSize="18"
+            <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="3"
                Grid.Column="1"
                Text="{Binding Build}"/>
