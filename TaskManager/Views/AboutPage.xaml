@@ -4,9 +4,7 @@
              xmlns:viewmodel="clr-namespace:TaskManager.ViewModels"
              x:DataType="viewmodel:AboutPageViewModel"
              x:Class="TaskManager.Views.AboutPage"
-             Title="About">
-    
-    <!-- TODO: Bind title from the view model -->
+             Title="{Binding Title}">
     <!-- TODO: font size verhuizen naar een static string -->
 
     <VerticalStackLayout Padding="20">

@@ -4,7 +4,7 @@ using Microsoft.Maui.ApplicationModel;
 
 namespace TaskManager.ViewModels;
 
-public partial class AboutPageViewModel : ObservableObject
+public partial class AboutPageViewModel : BaseViewModel
 {
     [ObservableProperty]
     private string name = AppInfo.Current.Name;
@@ -17,6 +17,11 @@ public partial class AboutPageViewModel : ObservableObject
 
     [ObservableProperty]
     private string build = AppInfo.Current.BuildString;
+
+    public AboutPageViewModel()
+    {
+        Title = "hello from about!";
+    }
 
     [RelayCommand]   
     private static void ShowAppSettings()

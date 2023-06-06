@@ -4,8 +4,7 @@
              xmlns:viewmodel="clr-namespace:TaskManager.ViewModels"
              x:DataType="viewmodel:MainPageViewModel"
              x:Class="TaskManager.Views.MainPage"
-             Title="Overview">
-    <!-- TODO: Bind title from the view model -->
+             Title="{Binding Title}">
 
     <VerticalStackLayout Padding="20">
 

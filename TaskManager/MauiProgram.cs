@@ -63,6 +63,8 @@ public static class MauiProgram
 
     public static void RegisterDepedencies(MauiAppBuilder builder)
     {
+        builder.Services.AddSingleton<BaseViewModel>();
+
         builder.Services.AddSingleton<MainPage>();
         builder.Services.AddSingleton<MainPageViewModel>();
 
