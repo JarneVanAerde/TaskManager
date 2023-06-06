@@ -51,9 +51,9 @@ public static class MauiProgram
         {
             Page page = appAction.Id switch
             {
-                APP_ACTION_ID_OVERVIEW => new MainPage(),
+                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel()),
                 APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel()),
-                _ => new MainPage()
+                _ => new MainPage(new MainPageViewModel())
             };
 
             await Application.Current.MainPage.Navigation.PopToRootAsync();
@@ -64,9 +64,9 @@ public static class MauiProgram
     public static void RegisterDepedencies(MauiAppBuilder builder)
     {
         builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddSingleton<MainPageViewModel>();
+
         builder.Services.AddSingleton<AboutPage>();
         builder.Services.AddSingleton<AboutPageViewModel>();
     }
 }
-
-
