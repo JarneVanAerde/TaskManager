@@ -10,6 +10,6 @@
 
         <Button Text="Online tasks"
                 Command="{Binding GoToPlayStoreCommand}" />
-
+       
     </VerticalStackLayout>
 </ContentPage>

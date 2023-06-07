@@ -1,5 +1,6 @@
 ﻿using Android.App;
 using Android.Content.PM;
+using Android.OS;
 using Microsoft.Maui;
 using Microsoft.Maui.ApplicationModel;
 
@@ -17,6 +18,11 @@ public class MainActivity : MauiAppCompatActivity
         base.OnResume();
 
         Platform.OnResume(this);
+    }
+
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
     }
 
     protected override void OnNewIntent(Android.Content.Intent intent)
