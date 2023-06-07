@@ -6,7 +6,8 @@
              x:Class="TaskManager.Views.AboutPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20"
+                         Spacing="16">
         
         <Grid ColumnDefinitions="100, auto"
               RowDefinitions="50, 50, 50, 50">
@@ -48,8 +49,11 @@
                Text="{Binding Build}"/>
         </Grid>
 
-        <Button Text="Show UI settings"
+        <Button Text="Show App settings"
                 Command="{Binding ShowAppSettingsCommand}" />
+
+        <Button Text="Go to creator location"
+                Command="{Binding GoToMapsCommand}" />
 
     </VerticalStackLayout>
     

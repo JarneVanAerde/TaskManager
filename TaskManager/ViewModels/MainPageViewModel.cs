@@ -22,7 +22,7 @@ public partial class MainPageViewModel : BaseViewModel
         {
             var uri = new Uri(PlayStoreURL);
 
-            BrowserLaunchOptions options = new BrowserLaunchOptions()
+            var options = new BrowserLaunchOptions
             {
                 LaunchMode = BrowserLaunchMode.SystemPreferred,
                 TitleMode = BrowserTitleMode.Show,
@@ -33,6 +33,7 @@ public partial class MainPageViewModel : BaseViewModel
         }
         catch
         {
+            // TODO: abstract away the shell (search on the internet)
             await Shell.Current.DisplayAlert("Error!", "Unable to open the browser", "OK");
         }
     }
