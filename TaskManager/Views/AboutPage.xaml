@@ -55,6 +55,9 @@
         <Button Text="Go to creator location"
                 Command="{Binding GoToMapsCommand}" />
 
+        <Button Text="Download the App"
+                Command="{Binding GoToPlayStoreCommand}" />
+
     </VerticalStackLayout>
     
 </ContentPage>

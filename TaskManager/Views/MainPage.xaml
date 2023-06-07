@@ -6,10 +6,20 @@
              x:Class="TaskManager.Views.MainPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20" >
 
-        <Button Text="Online tasks"
-                Command="{Binding GoToPlayStoreCommand}" />
+        <Grid ColumnDefinitions="250, *" ColumnSpacing="16" >
+
+            <Entry Grid.Row="0"
+                   Grid.Column="0"
+                   Placeholder="Create a new TODO" />
+            
+            <Button Grid.Row="0"
+                    Grid.Column="1"
+                    Text="Add"
+                    Command="{Binding AddTodoCommand}"/>
+
+        </Grid>
        
     </VerticalStackLayout>
 </ContentPage>

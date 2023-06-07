@@ -3,12 +3,15 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices.Sensors;
+using Microsoft.Maui.Graphics;
 using System.Threading.Tasks;
 
 namespace TaskManager.ViewModels;
 
 public partial class AboutPageViewModel : BaseViewModel
 {
+    private const string PlayStoreURL = "https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US";
+
     [ObservableProperty]
     private string name = AppInfo.Current.Name;
 
@@ -23,7 +26,7 @@ public partial class AboutPageViewModel : BaseViewModel
 
     public AboutPageViewModel()
     {
-        Title = "hello from about!";
+        Title = "About";
     }
 
     [RelayCommand]   
@@ -45,6 +48,29 @@ public partial class AboutPageViewModel : BaseViewModel
         catch
         {
             await Shell.Current.DisplayAlert("Error!", "Unable to open the maps app", "OK");
+        }
+    }
+
+    [RelayCommand]
+    private async Task GoToPlayStore()
+    {
+        try
+        {
+            var uri = new Uri(PlayStoreURL);
+
+            var options = new BrowserLaunchOptions
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Show,
+                PreferredToolbarColor = Colors.Orange
+            };
+
+            await Browser.Default.OpenAsync(uri, options);
+        }
+        catch
+        {
+            // TODO: abstract away the shell (search on the internet)
+            await Shell.Current.DisplayAlert("Error!", "Unable to open the browser", "OK");
         }
     }
 }
