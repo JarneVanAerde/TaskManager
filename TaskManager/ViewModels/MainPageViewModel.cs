@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Graphics;
 using System.Threading.Tasks;
 
 namespace TaskManager.ViewModels;
@@ -20,7 +21,15 @@ public partial class MainPageViewModel : BaseViewModel
         try
         {
             var uri = new Uri(PlayStoreURL);
-            await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+
+            BrowserLaunchOptions options = new BrowserLaunchOptions()
+            {
+                LaunchMode = BrowserLaunchMode.SystemPreferred,
+                TitleMode = BrowserTitleMode.Show,
+                PreferredToolbarColor = Colors.Orange
+            };
+
+            await Browser.Default.OpenAsync(uri, options);
         }
         catch
         {
