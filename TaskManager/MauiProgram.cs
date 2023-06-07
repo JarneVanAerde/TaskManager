@@ -24,16 +24,17 @@ public static class MauiProgram
             {
                 fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
                 fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-            });
+            })
+            .ConfigureEssentials(essentials => essentials.UseVersionTracking());
 
         if (AppActions.Current.IsSupported)
         {
             builder.ConfigureEssentials(essentials =>
             {
                 essentials
-                .AddAppAction(APP_ACTION_ID_OVERVIEW, "Overview", icon: "appicon")
-                .AddAppAction(APP_ACTION_ID_ABOUT, "About", icon: "appicon")
-                .OnAppAction(HandleAppActions);
+                    .AddAppAction(APP_ACTION_ID_OVERVIEW, "Overview", icon: "appicon")
+                    .AddAppAction(APP_ACTION_ID_ABOUT, "About", icon: "appicon")
+                    .OnAppAction(HandleAppActions);
             });
         }
 

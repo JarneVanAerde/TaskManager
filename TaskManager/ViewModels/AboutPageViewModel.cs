@@ -24,6 +24,9 @@ public partial class AboutPageViewModel : BaseViewModel
     [ObservableProperty]
     private string build = AppInfo.Current.BuildString;
 
+    [ObservableProperty]
+    private string firstLaunch = VersionTracking.IsFirstLaunchEver ? "YES!" : "New...";
+
     public AboutPageViewModel()
     {
         Title = "About";

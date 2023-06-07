@@ -10,7 +10,7 @@
                          Spacing="16">
         
         <Grid ColumnDefinitions="100, auto"
-              RowDefinitions="50, 50, 50, 50">
+              RowDefinitions="50, 50, 50, 50, 50">
 
             <Label FontSize="{StaticResource LargeFontSize}"
                Grid.Row="0"
@@ -47,6 +47,15 @@
                Grid.Row="3"
                Grid.Column="1"
                Text="{Binding Build}"/>
+
+            <Label FontSize="{StaticResource LargeFontSize}"
+               Grid.Row="3"
+               Grid.Column="0">First launch?</Label>
+
+            <Label FontSize="{StaticResource LargeFontSize}"
+               Grid.Row="4"
+               Grid.Column="1"
+               Text="{Binding FirstLaunch}"/>
         </Grid>
 
         <Button Text="Show App settings"
