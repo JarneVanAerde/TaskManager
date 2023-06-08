@@ -13,7 +13,8 @@
 
             <Entry Grid.Row="0"
                    Grid.Column="0"
-                   Placeholder="Create a new TODO" />
+                   Placeholder="Create a new TODO"
+                   Text="{Binding TodoNameEntry}" />
             
             <Button Grid.Row="0"
                     Grid.Column="1"

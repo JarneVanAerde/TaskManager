@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.Input;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
@@ -10,6 +11,8 @@ namespace TaskManager.ViewModels;
 
 public partial class MainPageViewModel : BaseViewModel
 {
+    [ObservableProperty]
+    private string todoNameEntry;
     public ObservableCollection<Todo> Todos { get; }
 
     public MainPageViewModel()
@@ -34,7 +37,6 @@ public partial class MainPageViewModel : BaseViewModel
         }
 
         storageWritePermission = await Permissions.RequestAsync<Permissions.StorageWrite>();
-
         if (storageWritePermission != PermissionStatus.Granted)
         {
             await Shell.Current.DisplayAlert("Oops", "Unable to add todo due to missing permissions", "OK");
@@ -42,7 +44,11 @@ public partial class MainPageViewModel : BaseViewModel
 
         Todos.Add(new Todo
         {
-            Name = "This is a test todo"
+            Name = TodoNameEntry
         });
+
+        TodoNameEntry = string.Empty;
+
+        // TODO: write the todo to the storage of the device.
     }
 }
