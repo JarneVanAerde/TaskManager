@@ -53,11 +53,12 @@ public static class MauiProgram
         {
             Page page = appAction.Id switch
             {
-                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel(new AlertService())),
+                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel(new PermissionService(new AlertService()))),
                 APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel(new AlertService())),
-                _ => new MainPage(new MainPageViewModel(new AlertService()))
+                _ => new MainPage(new MainPageViewModel(new PermissionService(new AlertService())))
             };
 
+            // TODO: add shell navigation?
             await Application.Current.MainPage.Navigation.PopToRootAsync();
             await Application.Current.MainPage.Navigation.PushAsync(page);
         });
@@ -66,6 +67,7 @@ public static class MauiProgram
     public static void RegisterDepedencies(MauiAppBuilder builder)
     {
         builder.Services.AddSingleton<IAlertService, AlertService>();
+        builder.Services.AddSingleton<IPermissionService, PermissionService>();
 
         builder.Services.AddSingleton<BaseViewModel>();
 
