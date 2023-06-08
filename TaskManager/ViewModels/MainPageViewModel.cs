@@ -1,24 +1,28 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using TaskManager.Models;
+using TaskManager.Services;
 
 namespace TaskManager.ViewModels;
 
 public partial class MainPageViewModel : BaseViewModel
 {
-    [ObservableProperty]
-    private string todoNameEntry;
     public ObservableCollection<Todo> Todos { get; }
 
-    public MainPageViewModel()
+    private readonly IAlertService _alertService;
+
+    [ObservableProperty]
+    private string todoNameEntry;
+
+    public MainPageViewModel(IAlertService alertService)
     {
         Title = "Overview";
         Todos = new ObservableCollection<Todo>();
+        _alertService = alertService;
     }
 
     // TODO: Extract to permission service
@@ -33,13 +37,13 @@ public partial class MainPageViewModel : BaseViewModel
             Permissions.ShouldShowRationale<Permissions.StorageWrite>();
         if (shouldShowExplanation)
         {
-            await Shell.Current.DisplayAlert("Important!", "It is important that we get these permission, otherwise you will not be able to add a TODO.", "OK");
+            await _alertService.DisplayInfo("Important!", "It is important that we get these permission, otherwise you will not be able to add a TODO.");
         }
 
         storageWritePermission = await Permissions.RequestAsync<Permissions.StorageWrite>();
         if (storageWritePermission != PermissionStatus.Granted)
         {
-            await Shell.Current.DisplayAlert("Oops", "Unable to add todo due to missing permissions", "OK");
+            await _alertService.DisplayInfo("Oops", "Unable to add todo due to missing permissions");
         }
 
         Todos.Add(new Todo

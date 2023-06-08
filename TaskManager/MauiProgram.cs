@@ -4,7 +4,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
-using System.Threading.Tasks;
+using TaskManager.Services;
 using TaskManager.ViewModels;
 using TaskManager.Views;
 
@@ -27,6 +27,8 @@ public static class MauiProgram
             })
             .ConfigureEssentials(essentials => essentials.UseVersionTracking());
 
+        RegisterDepedencies(builder);
+
         if (AppActions.Current.IsSupported)
         {
             builder.ConfigureEssentials(essentials =>
@@ -37,8 +39,6 @@ public static class MauiProgram
                     .OnAppAction(HandleAppActions);
             });
         }
-
-        RegisterDepedencies(builder);
 
 #if DEBUG
         builder.Logging.AddDebug();
@@ -53,9 +53,9 @@ public static class MauiProgram
         {
             Page page = appAction.Id switch
             {
-                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel()),
-                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel()),
-                _ => new MainPage(new MainPageViewModel())
+                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel(new AlertService())),
+                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel(new AlertService())),
+                _ => new MainPage(new MainPageViewModel(new AlertService()))
             };
 
             await Application.Current.MainPage.Navigation.PopToRootAsync();
@@ -65,6 +65,8 @@ public static class MauiProgram
 
     public static void RegisterDepedencies(MauiAppBuilder builder)
     {
+        builder.Services.AddSingleton<IAlertService, AlertService>();
+
         builder.Services.AddSingleton<BaseViewModel>();
 
         builder.Services.AddSingleton<MainPage>();

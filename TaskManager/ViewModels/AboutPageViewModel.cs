@@ -1,16 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices.Sensors;
 using Microsoft.Maui.Graphics;
 using System.Threading.Tasks;
+using TaskManager.Services;
 
 namespace TaskManager.ViewModels;
 
 public partial class AboutPageViewModel : BaseViewModel
 {
     private const string PlayStoreURL = "https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US";
+
+    private readonly IAlertService _alertService;
 
     [ObservableProperty]
     private string name = AppInfo.Current.Name;
@@ -27,9 +29,10 @@ public partial class AboutPageViewModel : BaseViewModel
     [ObservableProperty]
     private string firstLaunch = VersionTracking.IsFirstLaunchEver ? "YES!" : "New...";
 
-    public AboutPageViewModel()
+    public AboutPageViewModel(IAlertService alertService)
     {
         Title = "About";
+        _alertService = alertService;
     }
 
     [RelayCommand]   
@@ -50,7 +53,7 @@ public partial class AboutPageViewModel : BaseViewModel
         }
         catch
         {
-            await Shell.Current.DisplayAlert("Error!", "Unable to open the maps app", "OK");
+            await _alertService.DisplayError("Unable to open the maps app");
         }
     }
 
@@ -72,9 +75,7 @@ public partial class AboutPageViewModel : BaseViewModel
         }
         catch
         {
-            // TODO: abstract away the shell (search on the internet)
-            await Shell.Current.DisplayAlert("Error!", "Unable to open the browser", "OK");
+            await _alertService.DisplayError("Unable to open the browser");
         }
     }
 }
-
