@@ -49,7 +49,7 @@
                Text="{Binding Build}"/>
 
             <Label FontSize="{StaticResource LargeFontSize}"
-               Grid.Row="3"
+               Grid.Row="4"
                Grid.Column="0">First launch?</Label>
 
             <Label FontSize="{StaticResource LargeFontSize}"

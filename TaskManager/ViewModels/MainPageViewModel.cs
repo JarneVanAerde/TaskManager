@@ -2,15 +2,20 @@
 using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Devices;
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using TaskManager.Models;
 
 namespace TaskManager.ViewModels;
 
 public partial class MainPageViewModel : BaseViewModel
 {
+    public ObservableCollection<Todo> Todos { get; }
+
     public MainPageViewModel()
     {
         Title = "Overview";
+        Todos = new ObservableCollection<Todo>();
     }
 
     // TODO: Extract to permission service
@@ -30,13 +35,14 @@ public partial class MainPageViewModel : BaseViewModel
 
         storageWritePermission = await Permissions.RequestAsync<Permissions.StorageWrite>();
 
-        if (storageWritePermission == PermissionStatus.Granted)
+        if (storageWritePermission != PermissionStatus.Granted)
         {
-            await Shell.Current.DisplayAlert("GRANTED!", "Permission granted!", "OK");
+            await Shell.Current.DisplayAlert("Oops", "Unable to add todo due to missing permissions", "OK");
         }
-        else
+
+        Todos.Add(new Todo
         {
-            throw new Exception("You did not do what we asked...");
-        }
+            Name = "This is a test todo"
+        });
     }
 }
