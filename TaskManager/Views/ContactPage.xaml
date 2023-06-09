@@ -6,9 +6,20 @@
              x:Class="TaskManager.Views.ContactPage"
              Title="{Binding Title}">
     
-    <VerticalStackLayout Padding="20">
+    <VerticalStackLayout Padding="20" Spacing="15">
 
         <Label FontSize="{StaticResource LargeFontSize}">Let's get in touch!</Label>
+
+        <Button Text="Contact information">
+            <Button.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Windows">False</On>
+                    <On Platform="Android">True</On>
+                    <On Platform="MacCatalyst">True</On>
+                    <On Platform="IOS">True</On>
+                </OnPlatform>
+            </Button.IsVisible>
+        </Button>
         
     </VerticalStackLayout>
     
