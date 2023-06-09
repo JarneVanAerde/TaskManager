@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:TaskManager.ViewModels"
+             x:DataType="viewmodel:ContactPageViewModel"
+             x:Class="TaskManager.Views.ContactPage"
+             Title="{Binding Title}">
+    
+    <VerticalStackLayout Padding="20">
+
+        <Label FontSize="{StaticResource LargeFontSize}">Let's get in touch!</Label>
+        
+    </VerticalStackLayout>
+    
+</ContentPage>
