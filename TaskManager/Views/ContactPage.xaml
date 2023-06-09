@@ -10,7 +10,8 @@
 
         <Label FontSize="{StaticResource LargeFontSize}">Let's get in touch!</Label>
 
-        <Button Text="Contact information">
+        <Button Text="Contact information"
+                Command="{Binding PickContactCommand}">
             <Button.IsVisible>
                 <OnPlatform x:TypeArguments="x:Boolean">
                     <On Platform="Windows">False</On>

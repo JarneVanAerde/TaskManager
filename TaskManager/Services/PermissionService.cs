@@ -29,13 +29,13 @@ public class PermissionService : IPermissionService
             ShouldShowRationale<TPermission>();
         if (shouldShowExplanation)
         {
-            await _alertService.DisplayInfo("Important!", "You need write permissions in order to add a TODO");
+            await _alertService.DisplayInfo("Important!", "You need permissions in order to complete this action");
         }
 
         storageWritePermission = await RequestAsync<TPermission>();
         if (storageWritePermission != PermissionStatus.Granted)
         {
-            await _alertService.DisplayInfo("Oops", "Unable to add todo due to missing permissions");
+            await _alertService.DisplayInfo("Oops", "Unable to complete action due to missing permissions");
             return false;
         }
 
