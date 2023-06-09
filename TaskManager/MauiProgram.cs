@@ -70,6 +70,7 @@ public static class MauiProgram
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();
         builder.Services.AddSingleton(Contacts.Default);
+        builder.Services.AddSingleton(Email.Default);
 
         builder.Services.AddSingleton<BaseViewModel>();
 

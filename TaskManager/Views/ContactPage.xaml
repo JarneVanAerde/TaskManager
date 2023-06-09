@@ -21,7 +21,10 @@
                 </OnPlatform>
             </Button.IsVisible>
         </Button>
-        
+
+        <Button Text="Sent an email"
+                Command="{Binding GoToEmailClientCommand}"/>
+
     </VerticalStackLayout>
     
 </ContentPage>

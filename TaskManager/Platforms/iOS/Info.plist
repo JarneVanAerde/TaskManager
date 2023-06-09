@@ -30,5 +30,9 @@
 	<string>Assets.xcassets/appicon.appiconset</string>
 	<key>NSContactsUsageDescription</key>
 	<string>This app needs access to contacts to pick a contact and get info.</string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>mailto</string>
+	</array>
 </dict>
 </plist>
