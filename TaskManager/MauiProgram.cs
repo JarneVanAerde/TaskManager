@@ -1,13 +1,13 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.ApplicationModel;
-using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 using TaskManager.Services;
 using TaskManager.ViewModels;
 using TaskManager.Views;
+using Communication = Microsoft.Maui.ApplicationModel.Communication;
 
 namespace TaskManager;
 
@@ -69,8 +69,8 @@ public static class MauiProgram
     {
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();
-        builder.Services.AddSingleton(Contacts.Default);
-        builder.Services.AddSingleton(Email.Default);
+        builder.Services.AddSingleton(Communication.Contacts.Default);
+        builder.Services.AddSingleton(Communication.Email.Default);
 
         builder.Services.AddSingleton<BaseViewModel>();
 

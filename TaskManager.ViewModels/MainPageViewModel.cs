@@ -3,7 +3,7 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using TaskManager.Models;
+using TaskManager.ViewModels.Models;
 using TaskManager.Services;
 
 namespace TaskManager.ViewModels;
