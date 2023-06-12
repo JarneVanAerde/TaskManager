@@ -10,6 +10,7 @@ public interface IPermissionService
     Task<bool> HasPermission<TPermission>() where TPermission : BasePermission, new();
 }
 
+// TODO: Move Permission check to interface to make this testable.
 public class PermissionService : IPermissionService
 {
     private readonly IAlertService _alertService;
