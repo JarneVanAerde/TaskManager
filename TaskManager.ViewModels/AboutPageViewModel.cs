@@ -10,9 +10,12 @@ namespace TaskManager.ViewModels;
 
 public partial class AboutPageViewModel : BaseViewModel
 {
-    private const string PlayStoreURL = "https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US";
+    internal const string PlayStoreURL = "https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US";
 
     private readonly IAlertService _alertService;
+    private readonly IAppInfo _appInfo;
+    private readonly IMap _map;
+    private readonly IBrowser _browser;
 
     [ObservableProperty]
     private string name;
@@ -29,7 +32,12 @@ public partial class AboutPageViewModel : BaseViewModel
     [ObservableProperty]
     private string firstLaunch;
 
-    public AboutPageViewModel(IAlertService alertService, IAppInfo appInfo, IVersionTracking versionTracking)
+    public AboutPageViewModel(
+        IAlertService alertService,
+        IAppInfo appInfo,
+        IVersionTracking versionTracking,
+        IMap map,
+        IBrowser browser)
     {
         Title = "About";
         Name = appInfo.Name;
@@ -37,15 +45,18 @@ public partial class AboutPageViewModel : BaseViewModel
         Version = appInfo.VersionString;
         Build = appInfo.BuildString;
 
-        FirstLaunch = versionTracking.IsFirstLaunchEver ? "YES" : "New...";
+        FirstLaunch = versionTracking.IsFirstLaunchEver ? "YES!" : "New...";
 
         _alertService = alertService;
+        _appInfo = appInfo;
+        _map = map;
+        _browser = browser;
     }
 
     [RelayCommand]   
     public void ShowAppSettings()
     {
-        AppInfo.Current.ShowSettingsUI();
+        _appInfo.ShowSettingsUI();
     }
 
     [RelayCommand]
@@ -56,7 +67,7 @@ public partial class AboutPageViewModel : BaseViewModel
 
         try
         {
-            await Map.Default.OpenAsync(location, options);
+            await _map.OpenAsync(location, options);
         }
         catch
         {
@@ -78,7 +89,7 @@ public partial class AboutPageViewModel : BaseViewModel
                 PreferredToolbarColor = Colors.Orange
             };
 
-            await Browser.Default.OpenAsync(uri, options);
+            await _browser.OpenAsync(uri, options);
         }
         catch
         {
