@@ -1,6 +1,5 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using TaskManager.Services;
-using TaskManager.ViewModels.Models;
 
 namespace TaskManager.ViewModels.Tests;
 
@@ -31,27 +30,21 @@ public class MainPageViewModelTests
     [Fact]
     public async Task AddTodo_WithPermission_ClearsTodoNameEntry()
     {
-        // Arrange
         _sut.TodoNameEntry = "test Todo";
         _permissionServiceMock.HasPermission<Permissions.StorageWrite>().Returns(true);
 
-        // Act
         await _sut.AddTodo();
 
-        // Assert
         Assert.Equal(string.Empty, _sut.TodoNameEntry);
     }
 
     [Fact]
     public async Task AddTodo_WithoutPermission_DoesNotAddTodoToCollection()
     {
-        // Arrange
         _permissionServiceMock.HasPermission<Permissions.StorageWrite>().Returns(false);
 
-        // Act
         await _sut.AddTodo();
 
-        // Assert
         Assert.Empty(_sut.Todos);
     }
 }
