@@ -28,7 +28,7 @@ public partial class ContactPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task PickContact()
+    public async Task PickContact()
     {
         var hasMissingPermissions = !await _permissionService.HasPermission<Permissions.ContactsRead>();
         if (hasMissingPermissions) return;
@@ -42,7 +42,7 @@ public partial class ContactPageViewModel : BaseViewModel
 
 
     [RelayCommand]
-    private async Task GoToEmailClient()
+    public async Task GoToEmailClient()
     {
         if (!_email.IsComposeSupported)
         {

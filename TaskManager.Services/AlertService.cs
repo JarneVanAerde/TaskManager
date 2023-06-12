@@ -9,7 +9,6 @@ public interface IAlertService
     Task DisplayError(string message);
 }
 
-// TODO: abstract away the shell in a shell service.
 public class AlertService : IAlertService
 {
     public async Task DisplayInfo(string title, string message)
