@@ -25,7 +25,7 @@ public partial class MainPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task AddTodo()
+    public async Task AddTodo()
     {
         var hasMissingPermissions = !await _permissionService.HasPermission<Permissions.StorageWrite>();
         if (hasMissingPermissions) return;

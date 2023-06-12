@@ -2,11 +2,15 @@
 using Microsoft.Maui.ApplicationModel;
 using System;
 using Microsoft.Maui.Graphics;
+using NSubstitute.ExceptionExtensions;
+using Microsoft.Maui.Devices.Sensors;
 
 namespace TaskManager.ViewModels.Tests;
 
 public class AboutPageViewModelTests
 {
+    private const string PlayStoreURI = "https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US";
+
     private readonly AboutPageViewModel _sut;
     private readonly IAlertService _alertServiceMock;
     private readonly IAppInfo _appInfoMock;
@@ -95,21 +99,25 @@ public class AboutPageViewModelTests
         _appInfoMock.Received(1).ShowSettingsUI();
     }
 
+    // TODO: Fix tests of the map service.
     //[Fact]
-    //public async Task GoToMaps_CallsMapCorrectly()
+    //public async Task GoToMaps_CallsOpenCorrectly()
     //{
     //    var location = new Location(51.3321142, 4.38072190733679);
-    //    var options = new MapLaunchOptions { Name = "Home base" };
+    //    var options = new MapLaunchOptions();
 
     //    await _sut.GoToMaps();
 
-    //    await _mapMock.Received(1).OpenAsync(location, Arg.Is<MapLaunchOptions>(x => x.Name == options.));
+    //    await _mapMock.Received(1).OpenAsync(
+    //        location, options);
     //}
 
     //[Fact]
     //public async Task GoToMaps_OpeningMapFails_DisplaysError()
     //{
-    //    _mapMock.OpenAsync(Arg.Any<Location>(), Arg.Any<MapLaunchOptions>())
+    //    var location = new Location(51.3321142, 4.38072190733679);
+    //    var options = new MapLaunchOptions();
+    //    _mapMock.OpenAsync(location, Arg.Any<MapLaunchOptions>())
     //        .Throws(new Exception("Failed to open maps"));
 
     //    await _sut.GoToMaps();
@@ -118,10 +126,10 @@ public class AboutPageViewModelTests
     //}
 
     [Fact]
-    public async Task GoToPlayStore_CallsBrowserCorrectly()
+    public async Task GoToPlayStore_CallsOpenCorrectly()
     {
-        var uri = new Uri("https://play.google.com/store/apps/details?id=com.google.android.apps.tasks&hl=nl&gl=US");
-        
+        var uri = new Uri(PlayStoreURI);
+
         await _sut.GoToPlayStore();
 
         await _browserMock.Received(1).OpenAsync(
@@ -132,23 +140,14 @@ public class AboutPageViewModelTests
                 x.PreferredToolbarColor == Colors.Orange));
     }
 
-    //[Fact]
-    //public async Task GoToPlayStore_CommandExecuted_DisplaysErrorIfOpeningBrowserFails()
-    //{
-    //    Arrange
-    //   var uri = new Uri(AboutPageViewModel.PlayStoreURL);
-    //    var options = new BrowserLaunchOptions
-    //    {
-    //        LaunchMode = BrowserLaunchMode.SystemPreferred,
-    //        TitleMode = BrowserTitleMode.Show,
-    //        PreferredToolbarColor = Colors.Orange
-    //    };
-    //    Browser.Default.OpenAsync(uri, options).Throws(new Exception("Failed to open browser"));
+    [Fact]
+    public async Task GoToPlayStore_OpenBrowserFails_DisplaysError()
+    {
+        _browserMock.OpenAsync(Arg.Any<Uri>(), Arg.Any<BrowserLaunchOptions>())
+            .Throws(new Exception("Failed to open browser"));
 
-    //    Act
-    //   await _sut.GoToPlayStoreCommand.ExecuteAsync(null);
+        await _sut.GoToPlayStore();
 
-    //    Assert
-    //   await _alertServiceMock.Received(1).DisplayError("Unable to open the browser");
-    //}
+        await _alertServiceMock.Received(1).DisplayError("Unable to open the browser");
+    }
 }
