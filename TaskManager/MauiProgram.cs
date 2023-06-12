@@ -55,7 +55,7 @@ public static class MauiProgram
             Page page = appAction.Id switch
             {
                 APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel(new PermissionService(new AlertService()))),
-                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel(new AlertService())),
+                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel(new AlertService(), AppInfo.Current, VersionTracking.Default)),
                 _ => new MainPage(new MainPageViewModel(new PermissionService(new AlertService())))
             };
 
@@ -67,6 +67,8 @@ public static class MauiProgram
 
     public static void RegisterDepedencies(MauiAppBuilder builder)
     {
+        builder.Services.AddSingleton(AppInfo.Current);
+        builder.Services.AddSingleton(VersionTracking.Default);
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();
         builder.Services.AddSingleton(Communication.Contacts.Default);

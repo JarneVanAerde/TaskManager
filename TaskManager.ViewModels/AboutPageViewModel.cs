@@ -15,34 +15,41 @@ public partial class AboutPageViewModel : BaseViewModel
     private readonly IAlertService _alertService;
 
     [ObservableProperty]
-    private string name = AppInfo.Current.Name;
+    private string name;
 
     [ObservableProperty]
-    private string package = AppInfo.Current.PackageName;
+    private string package;
 
     [ObservableProperty]
-    private string version = AppInfo.Current.VersionString;
+    private string version;
 
     [ObservableProperty]
-    private string build = AppInfo.Current.BuildString;
+    private string build;
 
     [ObservableProperty]
-    private string firstLaunch = VersionTracking.IsFirstLaunchEver ? "YES!" : "New...";
+    private string firstLaunch;
 
-    public AboutPageViewModel(IAlertService alertService)
+    public AboutPageViewModel(IAlertService alertService, IAppInfo appInfo, IVersionTracking versionTracking)
     {
         Title = "About";
+        Name = appInfo.Name;
+        Package = appInfo.PackageName;
+        Version = appInfo.VersionString;
+        Build = appInfo.BuildString;
+
+        FirstLaunch = versionTracking.IsFirstLaunchEver ? "YES" : "New...";
+
         _alertService = alertService;
     }
 
     [RelayCommand]   
-    private void ShowAppSettings()
+    public void ShowAppSettings()
     {
         AppInfo.Current.ShowSettingsUI();
     }
 
     [RelayCommand]
-    private async Task GoToMaps()
+    public async Task GoToMaps()
     {
         var location = new Location(51.3321142, 4.38072190733679);
         var options = new MapLaunchOptions { Name = "Home base" };
@@ -58,7 +65,7 @@ public partial class AboutPageViewModel : BaseViewModel
     }
 
     [RelayCommand]
-    private async Task GoToPlayStore()
+    public async Task GoToPlayStore()
     {
         try
         {
