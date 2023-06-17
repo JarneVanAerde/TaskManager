@@ -54,4 +54,25 @@ public class MainPageViewModelTests
 
         Assert.Empty(_sut.Todos);
     }
+
+    [Fact]
+    public async Task LoadTodos_WithInternetAccess_SetsIsBusyToTrue()
+    {
+        _connectivityMock.NetworkAccess.Returns(NetworkAccess.Internet);
+
+        await _sut.LoadTodos();
+
+        // Assert
+        Assert.True(_sut.IsBusy);
+    }
+
+    [Fact]
+    public async Task LoadTodos_WithoutInternetAccess_DisplaysError()
+    {
+        _connectivityMock.NetworkAccess.Returns(NetworkAccess.None);
+
+        await _sut.LoadTodos();
+
+        await _alertServiceMock.Received(1).DisplayError("You need internet access for this feature");
+    }
 }
