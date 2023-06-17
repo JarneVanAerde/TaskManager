@@ -25,6 +25,9 @@
         <Button Text="Sent an email"
                 Command="{Binding GoToEmailClientCommand}"/>
 
+        <Button Text="Call me"
+                Command="{Binding DialPhoneCommand}"/>
+
     </VerticalStackLayout>
     
 </ContentPage>

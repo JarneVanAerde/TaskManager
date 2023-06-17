@@ -52,9 +52,10 @@ public partial class MainPageViewModel : BaseViewModel
         if (_connectivity.NetworkAccess != NetworkAccess.Internet)
         {
             await _alertService.DisplayError("You need internet access for this feature");
-        } else
-        {
-            IsBusy = true;
+            return;
         }
+
+        IsBusy = true;
+        // TODO: if we leave the page, we need to stop loading the todo's.
     }
 }

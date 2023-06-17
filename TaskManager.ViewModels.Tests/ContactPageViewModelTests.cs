@@ -11,6 +11,7 @@ public class ContactPageViewModelTests
     private readonly IEmail _emailMock;
     private readonly IPermissionService _permissionServiceMock;
     private readonly IAlertService _alertServiceMock;
+    private readonly IPhoneDialer _phoneDialerMock;
 
     public ContactPageViewModelTests()
     {
@@ -18,12 +19,14 @@ public class ContactPageViewModelTests
         _emailMock = Substitute.For<IEmail>();
         _permissionServiceMock = Substitute.For<IPermissionService>();
         _alertServiceMock = Substitute.For<IAlertService>();
+        _phoneDialerMock = Substitute.For<IPhoneDialer>();
 
         _sut = new ContactPageViewModel(
             _contactsMock,
             _emailMock,
             _permissionServiceMock,
-            _alertServiceMock);
+            _alertServiceMock,
+            _phoneDialerMock);
     }
 
     [Fact]
@@ -86,5 +89,25 @@ public class ContactPageViewModelTests
         await _sut.GoToEmailClient();
 
         await _alertServiceMock.Received(1).DisplayError("Email function is not supported on this device");
+    }
+
+    [Fact]
+    public async Task DialPhone_WithPhoneDialerSupported_OpensPhoneDialer()
+    {
+        _phoneDialerMock.IsSupported.Returns(true);
+
+        await _sut.DialPhone();
+
+        _phoneDialerMock.Received(1).Open("+32472023781");
+    }
+
+    [Fact]
+    public async Task DialPhone_WithoutPhoneDialerSupported_DisplaysError()
+    {
+        _phoneDialerMock.IsSupported.Returns(false);
+
+        await _sut.DialPhone();
+
+        await _alertServiceMock.Received(1).DisplayError("Phone dialing function is not supported on this device");
     }
 }

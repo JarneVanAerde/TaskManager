@@ -86,9 +86,10 @@ public static class MauiProgram
         builder.Services.AddSingleton(Browser.Default);
         builder.Services.AddSingleton(AppInfo.Current);
         builder.Services.AddSingleton(VersionTracking.Default);
+        builder.Services.AddSingleton(Connectivity.Current);
         builder.Services.AddSingleton(Communication.Contacts.Default);
         builder.Services.AddSingleton(Communication.Email.Default);
-        builder.Services.AddSingleton(Connectivity.Current);
+        builder.Services.AddSingleton(Communication.PhoneDialer.Default);
 
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();

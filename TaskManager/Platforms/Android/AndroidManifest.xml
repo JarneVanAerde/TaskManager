@@ -33,4 +33,12 @@
 			<data android:scheme="mailto" />
 		</intent>
 	</queries>
+
+	<!-- Phone dialer configuration -->
+	<queries>
+		<intent>
+			<action android:name="android.intent.action.DIAL" />
+			<data android:scheme="tel"/>
+		</intent>
+	</queries>
 </manifest>

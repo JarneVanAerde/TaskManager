@@ -62,7 +62,6 @@ public class MainPageViewModelTests
 
         await _sut.LoadTodos();
 
-        // Assert
         Assert.True(_sut.IsBusy);
     }
 

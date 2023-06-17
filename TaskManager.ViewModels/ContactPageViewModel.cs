@@ -13,18 +13,21 @@ public partial class ContactPageViewModel : BaseViewModel
     private readonly IEmail _email;
     private readonly IPermissionService _permissionService;
     private readonly IAlertService _alertService;
+    private readonly IPhoneDialer _phoneDialer;
 
     public ContactPageViewModel(
         IContacts contacts,
         IEmail email,
         IPermissionService permissionService,
-        IAlertService alertService)
+        IAlertService alertService,
+        IPhoneDialer phoneDialer)
     {
         Title = "Contact";
         _contacts = contacts;
         _email = email;
         _permissionService = permissionService;
         _alertService = alertService;
+        _phoneDialer = phoneDialer;
     }
 
     [RelayCommand]
@@ -60,5 +63,17 @@ public partial class ContactPageViewModel : BaseViewModel
         };
 
         await _email.ComposeAsync(message);
+    }
+
+    [RelayCommand]
+    public async Task DialPhone()
+    {
+        if (!_phoneDialer.IsSupported)
+        {
+            await _alertService.DisplayError("Phone dialing function is not supported on this device");
+            return;
+        }
+
+        _phoneDialer.Open("+32472023781");
     }
 }
