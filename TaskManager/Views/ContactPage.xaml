@@ -26,7 +26,16 @@
                 Command="{Binding GoToEmailClientCommand}"/>
 
         <Button Text="Call me"
-                Command="{Binding DialPhoneCommand}"/>
+                Command="{Binding DialPhoneCommand}">
+            <Button.IsVisible>
+                <OnPlatform x:TypeArguments="x:Boolean">
+                    <On Platform="Windows">False</On>
+                    <On Platform="Android">True</On>
+                    <On Platform="MacCatalyst">True</On>
+                    <On Platform="IOS">True</On>
+                </OnPlatform>
+            </Button.IsVisible>
+        </Button>
 
     </VerticalStackLayout>
     
