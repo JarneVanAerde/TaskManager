@@ -23,20 +23,25 @@
 
         </Grid>
 
+        <ActivityIndicator IsVisible="{Binding IsBusy}"
+                           IsRunning="{Binding IsBusy}" />
+
         <CollectionView ItemsSource="{Binding Todos}"
-                        SelectionMode="None">
+                        SelectionMode="None" >
 
             <!-- TODO: Make an empty view spalshscreen. -->
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="model:Todo">
-
                     <Frame Padding="15" Margin="0,5,0,5">
                         <Label Text="{Binding Name}" />
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
+
+        <Button Text="Load Todo's"
+                Command="{Binding LoadTodosCommand}"/>
 
     </VerticalStackLayout>
 </ContentPage>

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Networking;
 using TaskManager.Services;
 
 namespace TaskManager.ViewModels.Tests;
@@ -6,12 +7,18 @@ namespace TaskManager.ViewModels.Tests;
 public class MainPageViewModelTests
 {
     private readonly MainPageViewModel _sut;
+
     private readonly IPermissionService _permissionServiceMock;
+    private readonly IConnectivity _connectivityMock;
+    private readonly IAlertService _alertServiceMock;
 
     public MainPageViewModelTests()
     {
         _permissionServiceMock = Substitute.For<IPermissionService>();
-        _sut = new MainPageViewModel(_permissionServiceMock);
+        _connectivityMock = Substitute.For<IConnectivity>();
+        _alertServiceMock = Substitute.For<IAlertService>();
+
+        _sut = new MainPageViewModel(_permissionServiceMock, _connectivityMock, _alertServiceMock);
     }
 
     [Fact]

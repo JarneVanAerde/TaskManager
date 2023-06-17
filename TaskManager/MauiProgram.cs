@@ -4,6 +4,7 @@ using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
+using Microsoft.Maui.Networking;
 using TaskManager.Services;
 using TaskManager.ViewModels;
 using TaskManager.Views;
@@ -54,9 +55,23 @@ public static class MauiProgram
         {
             Page page = appAction.Id switch
             {
-                APP_ACTION_ID_OVERVIEW => new MainPage(new MainPageViewModel(new PermissionService(new AlertService()))),
-                APP_ACTION_ID_ABOUT => new AboutPage(new AboutPageViewModel(new AlertService(), AppInfo.Current, VersionTracking.Default, Map.Default, Browser.Default)),
-                _ => new MainPage(new MainPageViewModel(new PermissionService(new AlertService())))
+                APP_ACTION_ID_OVERVIEW => new MainPage(
+                    new MainPageViewModel(
+                        new PermissionService(new AlertService()),
+                        Connectivity.Current,
+                        new AlertService())),
+                APP_ACTION_ID_ABOUT => new AboutPage(
+                    new AboutPageViewModel(
+                        new AlertService(),
+                        AppInfo.Current,
+                        VersionTracking.Default,
+                        Map.Default,
+                        Browser.Default)),
+                _ => new MainPage(
+                    new MainPageViewModel(
+                        new PermissionService(new AlertService()),
+                        Connectivity.Current,
+                        new AlertService()))
             };
 
             // TODO: add shell navigation?
@@ -73,6 +88,7 @@ public static class MauiProgram
         builder.Services.AddSingleton(VersionTracking.Default);
         builder.Services.AddSingleton(Communication.Contacts.Default);
         builder.Services.AddSingleton(Communication.Email.Default);
+        builder.Services.AddSingleton(Connectivity.Current);
 
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();
