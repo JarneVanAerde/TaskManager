@@ -1,4 +1,4 @@
-﻿namespace TaskManager.ViewModels.Models;
+﻿namespace TaskManager.Models;
 
 public class Todo
 {

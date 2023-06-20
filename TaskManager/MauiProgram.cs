@@ -93,16 +93,17 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<IAlertService, AlertService>();
         builder.Services.AddSingleton<IPermissionService, PermissionService>();
+        builder.Services.AddSingleton<ITodoClient, TodoClient>();
 
         builder.Services.AddSingleton<BaseViewModel>();
 
-        builder.Services.AddSingleton<MainPage>();
+        builder.Services.AddTransient<MainPage>();
         builder.Services.AddSingleton<MainPageViewModel>();
 
-        builder.Services.AddSingleton<AboutPage>();
+        builder.Services.AddTransient<AboutPage>();
         builder.Services.AddSingleton<AboutPageViewModel>();
 
-        builder.Services.AddSingleton<ContactPage>();
+        builder.Services.AddTransient<ContactPage>();
         builder.Services.AddSingleton<ContactPageViewModel>();
     }
 }

@@ -19,6 +19,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\TaskManager.Models\TaskManager.Models.csproj" />
 	  <ProjectReference Include="..\TaskManager.Services\TaskManager.Services.csproj" />
 	</ItemGroup>
 
