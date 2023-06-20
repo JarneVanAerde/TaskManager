@@ -36,8 +36,15 @@ public partial class ContactPageViewModel : BaseViewModel
         var hasMissingPermissions = !await _permissionService.HasPermission<Permissions.ContactsRead>();
         if (hasMissingPermissions) return;
 
-        var contact = await _contacts.PickContactAsync();
-        if (contact == null) return;
+        Contact contact;
+        try
+        {
+            contact = await _contacts.PickContactAsync();
+        }
+        catch (TaskCanceledException)
+        {
+            return;
+        }
 
         var displayName = contact.DisplayName;
         await _alertService.DisplayInfo("Contact info", $"Hello there {displayName}!");

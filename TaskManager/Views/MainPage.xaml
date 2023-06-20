@@ -7,41 +7,46 @@
              x:Class="TaskManager.Views.MainPage"
              Title="{Binding Title}">
 
-    <VerticalStackLayout Padding="20" Spacing="20" >
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="20" >
 
-        <Grid ColumnDefinitions="250, *" ColumnSpacing="16" >
+            <Grid ColumnDefinitions="250, *" ColumnSpacing="16" >
 
-            <Entry Grid.Row="0"
+                <Entry Grid.Row="0"
                    Grid.Column="0"
                    Placeholder="Create a new TODO"
                    Text="{Binding TodoNameEntry}" />
-            
-            <Button Grid.Row="0"
+
+                <Button Grid.Row="0"
                     Grid.Column="1"
                     Text="Add"
                     Command="{Binding AddTodoCommand}"/>
+                
+                <!-- TODO: Add option to delete todo (swipe to delete?) -->
 
-        </Grid>
+            </Grid>
 
-        <ActivityIndicator IsVisible="{Binding IsBusy}"
+            <ActivityIndicator IsVisible="{Binding IsBusy}"
                            IsRunning="{Binding IsBusy}" />
 
-        <CollectionView ItemsSource="{Binding Todos}"
+            <CollectionView ItemsSource="{Binding Todos}"
                         SelectionMode="None" >
 
-            <!-- TODO: Make an empty view spalshscreen. -->
+                <!-- TODO: Make an empty view spalshscreen. -->
 
-            <CollectionView.ItemTemplate>
-                <DataTemplate x:DataType="model:Todo">
-                    <Frame Padding="15" Margin="0,5,0,5">
-                        <Label Text="{Binding Title}" />
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.ItemTemplate>
-        </CollectionView>
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Todo">
+                        <Frame Padding="15" Margin="0,5,0,5">
+                            <Label Text="{Binding Title}" />
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
 
-        <Button Text="Load Todo's"
+            <Button Text="Load Todo's"
                 Command="{Binding LoadTodosCommand}"/>
 
-    </VerticalStackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

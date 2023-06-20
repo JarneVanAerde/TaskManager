@@ -13,9 +13,9 @@ public class TaskManagerHttpClient : ITaskManagerHttpClient
 {
     private readonly HttpClient _httpClient;
 
-    public TaskManagerHttpClient(HttpClient httpClient)
+    public TaskManagerHttpClient()
     {
-        _httpClient = httpClient;
+        _httpClient = new HttpClient();
     }
 
     public async Task<ResponseMessage<T>> Get<T>(string url)

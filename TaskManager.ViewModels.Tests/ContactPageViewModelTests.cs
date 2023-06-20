@@ -1,6 +1,7 @@
 ﻿using Microsoft.Maui.ApplicationModel.Communication;
 using Microsoft.Maui.ApplicationModel;
 using TaskManager.Services;
+using NSubstitute.ExceptionExtensions;
 
 namespace TaskManager.ViewModels.Tests;
 
@@ -57,10 +58,10 @@ public class ContactPageViewModelTests
     }
 
     [Fact]
-    public async Task PickContact_WithValidPermissionsButNullContact_ShouldNotDisplayInfo()
+    public async Task PickContact_TaskCanceledException_ShouldNotDisplayInfo()
     {
         _permissionServiceMock.HasPermission<Permissions.ContactsRead>().Returns(true);
-        _contactsMock.PickContactAsync().Returns((Contact)null);
+        _contactsMock.PickContactAsync().Throws(new TaskCanceledException());
 
         await _sut.PickContact();
 
