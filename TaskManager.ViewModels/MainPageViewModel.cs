@@ -3,9 +3,10 @@ using CommunityToolkit.Mvvm.Input;
 using Microsoft.Maui.ApplicationModel;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using TaskManager.ViewModels.Models;
 using TaskManager.Services;
 using Microsoft.Maui.Networking;
+using TaskManager.Models;
+using System.Linq;
 
 namespace TaskManager.ViewModels;
 
@@ -16,11 +17,12 @@ public partial class MainPageViewModel : BaseViewModel
     private readonly IPermissionService _permissionService;
     private readonly IConnectivity _connectivity;
     private readonly IAlertService _alertService;
+    private readonly ITodoClient _todoClient;
 
     [ObservableProperty]
     private string todoNameEntry;
 
-    public MainPageViewModel(IPermissionService permissionService, IConnectivity connectivity, IAlertService alertService)
+    public MainPageViewModel(IPermissionService permissionService, IConnectivity connectivity, IAlertService alertService, ITodoClient todoClient)
     {
         Title = "Overview";
         Todos = new ObservableCollection<Todo>();
@@ -28,6 +30,7 @@ public partial class MainPageViewModel : BaseViewModel
         _permissionService = permissionService;
         _connectivity = connectivity;
         _alertService = alertService;
+        _todoClient = todoClient;
     }
 
     [RelayCommand]
@@ -38,7 +41,7 @@ public partial class MainPageViewModel : BaseViewModel
 
         Todos.Add(new Todo
         {
-            Name = TodoNameEntry
+            Title = TodoNameEntry
         });
 
         TodoNameEntry = string.Empty;
@@ -56,6 +59,15 @@ public partial class MainPageViewModel : BaseViewModel
         }
 
         IsBusy = true;
+
+        var todosFromClient = await _todoClient.GetTodos();
+        foreach (var todo in todosFromClient)
+        {
+            Todos.Add(todo);
+        }
+
+        IsBusy = false;
+
         // TODO: if we leave the page, we need to stop loading the todo's.
     }
 }

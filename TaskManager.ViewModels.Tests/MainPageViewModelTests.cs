@@ -1,5 +1,8 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Networking;
+using System;
+using System.Linq;
+using TaskManager.Models;
 using TaskManager.Services;
 
 namespace TaskManager.ViewModels.Tests;
@@ -11,27 +14,29 @@ public class MainPageViewModelTests
     private readonly IPermissionService _permissionServiceMock;
     private readonly IConnectivity _connectivityMock;
     private readonly IAlertService _alertServiceMock;
+    private readonly ITodoClient _todoClientMock;
 
     public MainPageViewModelTests()
     {
         _permissionServiceMock = Substitute.For<IPermissionService>();
         _connectivityMock = Substitute.For<IConnectivity>();
         _alertServiceMock = Substitute.For<IAlertService>();
+        _todoClientMock = Substitute.For<ITodoClient>();
 
-        _sut = new MainPageViewModel(_permissionServiceMock, _connectivityMock, _alertServiceMock);
+        _sut = new MainPageViewModel(_permissionServiceMock, _connectivityMock, _alertServiceMock, _todoClientMock);
     }
 
     [Fact]
     public async Task AddTodo_WithPermission_AddsTodoToCollection()
     {
-        var todoName = "Test Todo";
-        _sut.TodoNameEntry = todoName;
+        var todoTitle = "Test Todo";
+        _sut.TodoNameEntry = todoTitle;
         _permissionServiceMock.HasPermission<Permissions.StorageWrite>().Returns(true);
 
         await _sut.AddTodo();
 
         Assert.Single(_sut.Todos);
-        Assert.Equal(todoName, _sut.Todos[0].Name);
+        Assert.Equal(todoTitle, _sut.Todos[0].Title);
     }
 
     [Fact]
@@ -56,13 +61,25 @@ public class MainPageViewModelTests
     }
 
     [Fact]
-    public async Task LoadTodos_WithInternetAccess_SetsIsBusyToTrue()
+    public async Task LoadTodos_WithInternetAccess_CallsTodoClient()
     {
         _connectivityMock.NetworkAccess.Returns(NetworkAccess.Internet);
+        _todoClientMock.GetTodos().Returns(Array.Empty<Todo>());
 
         await _sut.LoadTodos();
 
-        Assert.True(_sut.IsBusy);
+        await _todoClientMock.Received(1).GetTodos();
+    }
+
+    [Fact]
+    public async Task LoadTodos_WithInternetAccess_SetsIsBusyBackToFalse()
+    {
+        _connectivityMock.NetworkAccess.Returns(NetworkAccess.Internet);
+        _todoClientMock.GetTodos().Returns(Array.Empty<Todo>());
+
+        await _sut.LoadTodos();
+
+        Assert.False(_sut.IsBusy);
     }
 
     [Fact]

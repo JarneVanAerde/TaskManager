@@ -2,5 +2,5 @@
 
 public class Todo
 {
-    public string Name { get; init; }
+    public string Title { get; init; }
 }

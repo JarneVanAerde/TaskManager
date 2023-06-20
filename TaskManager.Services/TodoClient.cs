@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Threading.Tasks;
 using TaskManager.Models;
 
@@ -9,34 +7,32 @@ namespace TaskManager.Services;
 
 public interface ITodoClient
 {
-    Task<List<Todo>> GetTodos();
+    Task<Todo[]> GetTodos();
 }
 
 public class TodoClient : ITodoClient
 {
     private const string URL = "https://jsonplaceholder.typicode.com/todos";
-    private readonly HttpClient _httpClient;
 
-    public TodoClient()
+    private readonly ITaskManagerHttpClient _httpClient;
+    private readonly IAlertService _alertService;
+
+    public TodoClient(ITaskManagerHttpClient httpClient, IAlertService alertService)
     {
-        _httpClient = new HttpClient();
+        _httpClient = httpClient;
+        _alertService = alertService;
     }
 
-    List<Todo> todoList = new();
-
-    public async Task<List<Todo>> GetTodos()
+    public async Task<Todo[]> GetTodos()
     {
-        // TODO: keep refreshing the page
-        if (todoList.Count > 0)
-            return todoList;
+        var response = await _httpClient.Get<Todo[]>(URL);
 
-        var response = await _httpClient.GetAsync(URL);
-        if (response.IsSuccessStatusCode)
+        if (!response.Ok)
         {
-            todoList = await response.Content.ReadFromJsonAsync<List<Todo>>();
-            todoList = todoList.Take(5).ToList();
+            await _alertService.DisplayError("Something went wrong while fetching the todos");
+            return Array.Empty<Todo>();
         }
 
-        return todoList;
+        return response.Data.Take(5).ToArray();
     }
 }
