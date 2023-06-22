@@ -39,7 +39,7 @@ public partial class MainPageViewModel : BaseViewModel
         var hasMissingPermissions = !await _permissionService.HasPermission<Permissions.StorageWrite>();
         if (hasMissingPermissions) return;
 
-        Todos.Add(new Todo
+        Todos.Insert(0, new Todo
         {
             Title = TodoNameEntry
         });
@@ -67,7 +67,11 @@ public partial class MainPageViewModel : BaseViewModel
         }
 
         IsBusy = false;
+    }
 
-        // TODO: if we leave the page, we need to stop loading the todo's.
+    [RelayCommand]
+    public void DeleteTodo(Todo todo)
+    {
+        Todos.Remove(todo);
     }
 }

@@ -21,9 +21,6 @@
                     Grid.Column="1"
                     Text="Add"
                     Command="{Binding AddTodoCommand}"/>
-                
-                <!-- TODO: Add option to delete todo (swipe to delete?) -->
-
             </Grid>
 
             <ActivityIndicator IsVisible="{Binding IsBusy}"
@@ -34,16 +31,27 @@
 
                 <!-- TODO: Make an empty view spalshscreen. -->
 
-                <CollectionView.ItemTemplate>
-                    <DataTemplate x:DataType="model:Todo">
-                        <Frame Padding="15" Margin="0,5,0,5">
-                            <Label Text="{Binding Title}" />
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate x:DataType="model:Todo">
 
-            <Button Text="Load Todo's"
+                        <SwipeView>
+                            <SwipeView.RightItems>
+                                <SwipeItem IconImageSource="trashbin_icon"
+                                           BackgroundColor="Red"
+                                           CommandParameter="{Binding .}"
+                                           Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MainPageViewModel}}, Path=DeleteTodoCommand}" />
+                            </SwipeView.RightItems>
+
+                            <Frame  Margin="0,5,0,5">
+                                <Label Text="{Binding Title}" />
+                            </Frame>
+                        </SwipeView>
+                          
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+
+                <Button Text="Load Todo's"
                 Command="{Binding LoadTodosCommand}"/>
 
         </VerticalStackLayout>
