@@ -99,31 +99,33 @@ public class AboutPageViewModelTests
         _appInfoMock.Received(1).ShowSettingsUI();
     }
 
-    // TODO: Fix tests of the map service.
-    //[Fact]
-    //public async Task GoToMaps_CallsOpenCorrectly()
-    //{
-    //    var location = new Location(51.3321142, 4.38072190733679);
-    //    var options = new MapLaunchOptions();
+    [Fact]
+    public async Task GoToMaps_CallsOpenCorrectly()
+    {
+        var location = new Location(51.3321142, 4.38072190733679);
+        var options = new MapLaunchOptions
+        {
+            Name = "Home base"
+        };
 
-    //    await _sut.GoToMaps();
+        await _sut.GoToMaps();
 
-    //    await _mapMock.Received(1).OpenAsync(
-    //        location, options);
-    //}
+        await _mapMock.Received(1).OpenAsync(
+            location.Latitude,
+            location.Longitude,
+            Arg.Is<MapLaunchOptions>(x => x.Name == options.Name));
+    }
 
-    //[Fact]
-    //public async Task GoToMaps_OpeningMapFails_DisplaysError()
-    //{
-    //    var location = new Location(51.3321142, 4.38072190733679);
-    //    var options = new MapLaunchOptions();
-    //    _mapMock.OpenAsync(location, Arg.Any<MapLaunchOptions>())
-    //        .Throws(new Exception("Failed to open maps"));
+    [Fact]
+    public async Task GoToMaps_OpeningMapFails_DisplaysError()
+    {
+        _mapMock.OpenAsync(Arg.Any<double>(), Arg.Any<double>(), Arg.Any<MapLaunchOptions>())
+            .Throws(new Exception("Failed to open maps"));
 
-    //    await _sut.GoToMaps();
+        await _sut.GoToMaps();
 
-    //    await _alertServiceMock.Received(1).DisplayError("Unable to open the maps app");
-    //}
+        await _alertServiceMock.Received(1).DisplayError("Unable to open the maps app");
+    }
 
     [Fact]
     public async Task GoToPlayStore_CallsOpenCorrectly()

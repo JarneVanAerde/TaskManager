@@ -63,7 +63,10 @@ public partial class AboutPageViewModel : BaseViewModel
     public async Task GoToMaps()
     {
         var location = new Location(51.3321142, 4.38072190733679);
-        var options = new MapLaunchOptions();
+        var options = new MapLaunchOptions
+        {
+            Name = "Home base"
+        };
 
         try
         {
