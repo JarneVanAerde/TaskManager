@@ -46,6 +46,8 @@ public partial class ContactPageViewModel : BaseViewModel
             return;
         }
 
+        if (contact is null) return;
+
         var displayName = contact.DisplayName;
         await _alertService.DisplayInfo("Contact info", $"Hello there {displayName}!");
     }
@@ -57,6 +59,7 @@ public partial class ContactPageViewModel : BaseViewModel
         if (!_email.IsComposeSupported)
         {
             await _alertService.DisplayError("Email function is not supported on this device");
+            return;
         }
 
         string subject = "Contact";

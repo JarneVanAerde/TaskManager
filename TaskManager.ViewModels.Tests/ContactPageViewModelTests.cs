@@ -69,6 +69,17 @@ public class ContactPageViewModelTests
     }
 
     [Fact]
+    public async Task PickContact_TaskCanceled_ShouldNotDisplayInfo()
+    {
+        _permissionServiceMock.HasPermission<Permissions.ContactsRead>().Returns(true);
+        _contactsMock.PickContactAsync().Returns((Contact?)null);
+
+        await _sut.PickContact();
+
+        await _alertServiceMock.DidNotReceive().DisplayInfo(Arg.Any<string>(), Arg.Any<string>());
+    }
+
+    [Fact]
     public async Task GoToEmailClient_WithComposeSupported_ShouldComposeEmail()
     {
         _emailMock.IsComposeSupported.Returns(true);
