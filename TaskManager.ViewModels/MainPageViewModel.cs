@@ -63,7 +63,7 @@ public partial class MainPageViewModel : BaseViewModel
         var todosFromClient = await _todoClient.GetTodos();
         foreach (var todo in todosFromClient)
         {
-            Todos.Add(todo);
+            Todos.Insert(0, todo);
         }
 
         IsBusy = false;

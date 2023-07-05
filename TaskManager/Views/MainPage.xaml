@@ -7,8 +7,10 @@
              x:Class="TaskManager.Views.MainPage"
              Title="{Binding Title}">
 
-    <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="20" >
+
+            <Button Text="Load Todo's"
+                    Command="{Binding LoadTodosCommand}"/>
 
             <Grid ColumnDefinitions="250, *" ColumnSpacing="16" >
 
@@ -27,7 +29,8 @@
                            IsRunning="{Binding IsBusy}" />
 
             <CollectionView ItemsSource="{Binding Todos}"
-                        SelectionMode="None" >
+                        SelectionMode="None"
+                            VerticalScrollBarVisibility="Never">
 
                 <!-- TODO: Make an empty view spalshscreen. -->
 
@@ -51,10 +54,5 @@
                     </CollectionView.ItemTemplate>
                 </CollectionView>
 
-                <Button Text="Load Todo's"
-                Command="{Binding LoadTodosCommand}"/>
-
         </VerticalStackLayout>
-    </ScrollView>
-
 </ContentPage>

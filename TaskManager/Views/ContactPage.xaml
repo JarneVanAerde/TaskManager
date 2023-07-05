@@ -31,7 +31,7 @@
                 <OnPlatform x:TypeArguments="x:Boolean">
                     <On Platform="Windows">False</On>
                     <On Platform="Android">True</On>
-                    <On Platform="MacCatalyst">True</On>
+                    <On Platform="MacCatalyst">False</On>
                     <On Platform="iOS">True</On>
                 </OnPlatform>
             </Button.IsVisible>
