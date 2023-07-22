@@ -14,15 +14,15 @@
                     Command="{Binding LoadTodosCommand}"/>
 
             <Grid ColumnDefinitions="250, *" ColumnSpacing="16" >
-
                 <Entry Grid.Row="0"
                    Grid.Column="0"
                    Placeholder="Create a new TODO"
-                   Text="{Binding TodoNameEntry}" />
+                   Text="{Binding TodoTitleEntry}" />
 
                 <Button Grid.Row="0"
                     Grid.Column="1"
                     Text="Add"
+                    IsEnabled="{Binding IsTodoTitleEntryEnabled}"
                     Command="{Binding AddTodoCommand}"/>
             </Grid>
 

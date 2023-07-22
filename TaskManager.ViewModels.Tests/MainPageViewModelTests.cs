@@ -1,7 +1,6 @@
 ﻿using Microsoft.Maui.ApplicationModel;
 using Microsoft.Maui.Networking;
 using System;
-using System.Linq;
 using TaskManager.Models;
 using TaskManager.Services;
 
@@ -26,28 +25,30 @@ public class MainPageViewModelTests
         _sut = new MainPageViewModel(_permissionServiceMock, _connectivityMock, _alertServiceMock, _todoClientMock);
     }
 
-    [Fact]
-    public async Task AddTodo_WithPermission_AddsTodoToCollection()
+    [Theory]
+    [InlineData("Test Todo")]
+    [InlineData("Test Todo     ")]
+    [InlineData("    Test Todo")]
+    public async Task AddTodo_WithPermission_AddsTodoToCollection(string todoTitle)
     {
-        var todoTitle = "Test Todo";
-        _sut.TodoNameEntry = todoTitle;
+        _sut.TodoTitleEntry = todoTitle;
         _permissionServiceMock.HasPermission<Permissions.StorageWrite>().Returns(true);
 
         await _sut.AddTodo();
 
         Assert.Single(_sut.Todos);
-        Assert.Equal(todoTitle, _sut.Todos[0].Title);
+        Assert.Equal("Test Todo", _sut.Todos[0].Title);
     }
 
     [Fact]
     public async Task AddTodo_WithPermission_ClearsTodoNameEntry()
     {
-        _sut.TodoNameEntry = "test Todo";
+        _sut.TodoTitleEntry = "test Todo";
         _permissionServiceMock.HasPermission<Permissions.StorageWrite>().Returns(true);
 
         await _sut.AddTodo();
 
-        Assert.Equal(string.Empty, _sut.TodoNameEntry);
+        Assert.Equal(string.Empty, _sut.TodoTitleEntry);
     }
 
     [Fact]
@@ -58,6 +59,26 @@ public class MainPageViewModelTests
         await _sut.AddTodo();
 
         Assert.Empty(_sut.Todos);
+    }
+
+    [Fact]
+    public void IsTodoTitleEntryEnabled_TodoTitleEntryNotEmpty_IsTodoTitleEntryEnabledReturnsTrue()
+    {
+        _sut.IsTodoTitleEntryEnabled = false;
+
+        _sut.TodoTitleEntry = "Something filled in";
+
+        Assert.True(_sut.IsTodoTitleEntryEnabled);
+    }
+
+    [Fact]
+    public void IsTodoTitleEntryEnabled_TodoTitleEntryEmpty_IsTodoTitleEntryEnabledReturnsFalse()
+    {
+        _sut.IsTodoTitleEntryEnabled = true;
+
+        _sut.TodoTitleEntry = string.Empty;
+
+        Assert.False(_sut.IsTodoTitleEntryEnabled);
     }
 
     [Fact]

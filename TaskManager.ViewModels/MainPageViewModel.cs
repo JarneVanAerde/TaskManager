@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TaskManager.Services;
 using Microsoft.Maui.Networking;
 using TaskManager.Models;
-using System.Linq;
 
 namespace TaskManager.ViewModels;
 
@@ -20,7 +19,10 @@ public partial class MainPageViewModel : BaseViewModel
     private readonly ITodoClient _todoClient;
 
     [ObservableProperty]
-    private string todoNameEntry;
+    private string todoTitleEntry;
+
+    [ObservableProperty]
+    private bool isTodoTitleEntryEnabled;
 
     public MainPageViewModel(IPermissionService permissionService, IConnectivity connectivity, IAlertService alertService, ITodoClient todoClient)
     {
@@ -33,6 +35,11 @@ public partial class MainPageViewModel : BaseViewModel
         _todoClient = todoClient;
     }
 
+    partial void OnTodoTitleEntryChanged(string oldValue, string newValue)
+    {
+        IsTodoTitleEntryEnabled = !string.IsNullOrWhiteSpace(newValue);
+    }
+
     [RelayCommand]
     public async Task AddTodo()
     {
@@ -41,10 +48,10 @@ public partial class MainPageViewModel : BaseViewModel
 
         Todos.Insert(0, new Todo
         {
-            Title = TodoNameEntry
+            Title = TodoTitleEntry.Trim()
         });
 
-        TodoNameEntry = string.Empty;
+        TodoTitleEntry = string.Empty;
 
         // TODO: write the todo to the storage of the device.
     }
@@ -67,11 +74,5 @@ public partial class MainPageViewModel : BaseViewModel
         }
 
         IsBusy = false;
-    }
-
-    [RelayCommand]
-    public void DeleteTodo(Todo todo)
-    {
-        Todos.Remove(todo);
     }
 }
